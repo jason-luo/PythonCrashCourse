@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+import game_functions as gf
 
 
 def run_game():
@@ -19,18 +20,8 @@ def run_game():
     ship = Ship(screen)
 
     while True:
-        # 获取并处理感兴趣的事件
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-
-        # 填充屏幕背景色
-        screen.fill(ai_settings.bg_color)
-        ship.blitme()
-
-        # 让绘制的屏幕可见
-        pygame.display.flip()
-
+        gf.check_event()
+        gf.update_screen(ai_settings, screen, ship)
 
 # 程序入口
 run_game()
