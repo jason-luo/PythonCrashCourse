@@ -2,11 +2,14 @@ import sys
 import pygame
 
 
-def check_event():
+def check_event(ship):
     """获取并处理感兴趣的事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                ship.rect.centerx += 1
 
 
 def update_screen(ai_settings, screen, ship):
