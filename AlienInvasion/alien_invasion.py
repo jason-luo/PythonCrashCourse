@@ -21,6 +21,7 @@ def run_game():
 
     while True:
         gf.check_event(ship)
+        ship.update()
         gf.update_screen(ai_settings, screen, ship)
 
 # 程序入口
