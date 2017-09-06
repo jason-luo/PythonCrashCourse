@@ -1,18 +1,17 @@
 import sys
 import pygame
-
+from settings import Settings
 
 def run_game():
     # 初始化
     pygame.init()
+
+    ai_settings = Settings()
     # 设置分辨率
-    screen = pygame.display.set_mode((1200, 800))
+    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
 
     # 设置标题
     pygame.display.set_caption("Alien Invasion")
-
-    # 设置背景色
-    bg_color = (230, 230, 230)
 
     while True:
         # 获取并处理感兴趣的事件
@@ -21,7 +20,7 @@ def run_game():
                 sys.exit()
 
         # 填充屏幕背景色
-        screen.fill(bg_color)
+        screen.fill(ai_settings.bg_color)
 
         # 让绘制的屏幕可见
         pygame.display.flip()
