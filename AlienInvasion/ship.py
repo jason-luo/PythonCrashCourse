@@ -24,9 +24,9 @@ class Ship():
 
     def update(self):
         # 更新非常center值，而不是rect,这里我也不是很理解（我想应该是浮点的缘故吧）
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.ship_speed_factor
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
 
         self.rect.centerx = self.center
