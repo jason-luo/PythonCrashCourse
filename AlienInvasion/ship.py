@@ -16,10 +16,13 @@ class Ship():
         self.rect.bottom = self.screen_rect.bottom
 
         self.moving_right = False
+        self.moving_left = False
 
     def update(self):
-        if (self.moving_right):
+        if self.moving_right:
             self.rect.centerx += 1
+        if self.moving_left:
+            self.rect.centerx -= 1
 
     def blitme(self):
         # 指定位置绘制飞船
