@@ -49,22 +49,32 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def create_fleet(ai_settings, screen, aliens):
+def create_fleet(ai_settings, screen, ship, aliens):
     """创建外星人舰队"""
 
     # 创建一个外星人并计算一行可以容纳多少外星人
     alien = Alien(ai_settings, screen)
     number_alien_x = get_number_alien_x(ai_settings, alien.rect.width)
+    number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
-    # 创建第一行外星人
-    for alien_number in range(number_alien_x):
-        create_alien(ai_settings, screen, aliens, alien_number)
+    # 创建多行外星人
+    for row_number in range(number_rows):
+        for alien_number in range(number_alien_x):
+            create_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 
-def create_alien(ai_settings, screen, aliens, alien_number):
+def get_number_rows(ai_settings, ship_height, alien_height):
+    available_space_y = ai_settings.screen_height - (3 * alien_height) - ship_height
+    number_alien_y = int(available_space_y / (2 * alien_height))
+    return number_alien_y
+
+
+def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien = Alien(ai_settings, screen)
     alien.x = alien.rect.width + 2 * alien.rect.width * alien_number
+    alien.y = alien.rect.height + 2 * alien.rect.height * row_number
     alien.rect.x = alien.x
+    alien.rect.y = alien.y
     aliens.add(alien)
 
 
