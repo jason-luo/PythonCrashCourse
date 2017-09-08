@@ -36,7 +36,7 @@ def check_event(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def draw_bullets(bullets):
+def update_bullets(bullets):
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom < 0:
@@ -49,8 +49,23 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def draw_aliens(aliens):
+def update_aliens(ai_settings, aliens):
+    check_fleet_edges(ai_settings, aliens)
     aliens.update()
+
+
+def check_fleet_edges(ai_settings, aliens):
+    for alien in aliens:
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+
+def change_fleet_direction(ai_settings, aliens):
+    for alien in aliens:
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """创建外星人舰队"""
