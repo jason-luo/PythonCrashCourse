@@ -52,16 +52,26 @@ def fire_bullet(ai_settings, screen, ship, bullets):
 def create_fleet(ai_settings, screen, aliens):
     """创建外星人舰队"""
 
+    # 创建一个外星人并计算一行可以容纳多少外星人
     alien = Alien(ai_settings, screen)
-    alien_width = alien.rect.width
+    number_alien_x = get_number_alien_x(ai_settings, alien.rect.width)
+
+    # 创建第一行外星人
+    for alien_number in range(number_alien_x):
+        create_alien(ai_settings, screen, aliens, alien_number)
+
+
+def create_alien(ai_settings, screen, aliens, alien_number):
+    alien = Alien(ai_settings, screen)
+    alien.x = alien.rect.width + 2 * alien.rect.width * alien_number
+    alien.rect.x = alien.x
+    aliens.add(alien)
+
+
+def get_number_alien_x(ai_settings, alien_width):
     available_space_x = ai_settings.screen_width - 2 * alien_width
     number_alien_x = int(available_space_x / (2 * alien_width))
-
-    for alien_number in range(number_alien_x):
-        alien = Alien(ai_settings, screen)
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        aliens.add(alien)
+    return number_alien_x
 
 
 def update_screen(ai_settings, screen, ship, aliens, bullets):
