@@ -1,5 +1,7 @@
 import sys
 import pygame
+
+from alien import Alien
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -22,13 +24,14 @@ def run_game():
 
     bullets = Group()
 
+    alien = Alien(ai_settings, screen)
     while True:
         gf.check_event(ai_settings, screen, ship, bullets)
         ship.update()
         bullets.update()
 
         gf.draw_bullets(bullets)
-        gf.update_screen(ai_settings, screen, ship, bullets)
+        gf.update_screen(ai_settings, screen, ship, alien, bullets)
 
 
 # 程序入口
