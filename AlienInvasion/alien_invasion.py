@@ -24,14 +24,16 @@ def run_game():
 
     bullets = Group()
 
-    alien = Alien(ai_settings, screen)
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, aliens)
+
     while True:
         gf.check_event(ai_settings, screen, ship, bullets)
         ship.update()
         bullets.update()
 
         gf.draw_bullets(bullets)
-        gf.update_screen(ai_settings, screen, ship, alien, bullets)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
 # 程序入口
