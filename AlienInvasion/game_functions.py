@@ -49,6 +49,9 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
+def draw_aliens(aliens):
+    aliens.update()
+
 def create_fleet(ai_settings, screen, ship, aliens):
     """创建外星人舰队"""
 
