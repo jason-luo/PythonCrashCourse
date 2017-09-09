@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from alien import Alien
+from game_stats import GameStats
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -19,6 +20,8 @@ def run_game():
     # 设置标题
     pygame.display.set_caption("Alien Invasion")
 
+    stats = GameStats(ai_settings)
+
     # 创建飞船
     ship = Ship(ai_settings, screen)
 
@@ -29,10 +32,12 @@ def run_game():
 
     while True:
         gf.check_event(ai_settings, screen, ship, bullets)
-        ship.update()
 
-        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, aliens)
+        if stats.game_active:
+            ship.update()
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
