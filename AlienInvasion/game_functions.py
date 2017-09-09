@@ -141,7 +141,7 @@ def get_number_alien_x(ai_settings, alien_width):
     return number_alien_x
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
     """更新屏幕上的图像并切换到新屏幕"""
     # 填充屏幕背景色
     screen.fill(ai_settings.bg_color)
@@ -152,5 +152,8 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     ship.blitme()
 
     aliens.draw(screen)
+
+    if not stats.game_active:
+        play_button.draw_button()
 
     pygame.display.flip()

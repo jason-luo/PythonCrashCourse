@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from alien import Alien
+from button import Button
 from game_stats import GameStats
 from settings import Settings
 from ship import Ship
@@ -19,6 +20,9 @@ def run_game():
 
     # 设置标题
     pygame.display.set_caption("Alien Invasion")
+
+    # 创建开始按钮
+    play_button = Button(ai_settings, screen, "Play")
 
     stats = GameStats(ai_settings)
 
@@ -38,7 +42,7 @@ def run_game():
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
 
 
 # 程序入口
