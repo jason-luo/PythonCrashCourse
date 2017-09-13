@@ -1,7 +1,6 @@
 import sys
 import pygame
 
-from alien import Alien
 from button import Button
 from game_stats import GameStats
 from settings import Settings
@@ -11,31 +10,33 @@ from pygame.sprite import Group
 
 
 def run_game():
-    # 初始化
     pygame.init()
-
     ai_settings = Settings()
-    # 设置分辨率
+
+    pygame.display.set_caption("Alien Invasion")
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
 
-    # 设置标题
-    pygame.display.set_caption("Alien Invasion")
-
-    # 创建开始按钮
-    play_button = Button(ai_settings, screen, "Play")
-
+    #  游戏状态
     stats = GameStats(ai_settings)
 
-    # 创建飞船
+    # 开始按钮
+    play_button = Button(ai_settings, screen, "Play")
+
+    # 飞船
     ship = Ship(ai_settings, screen)
 
+    # 飞船子弹
     bullets = Group()
 
+    # 外星人
     aliens = Group()
+
+    # 外星舰队
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
     while True:
-        gf.check_event(ai_settings, screen, ship, bullets)
+        # 键盘鼠标事件
+        gf.check_event(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 
         if stats.game_active:
             ship.update()

@@ -27,7 +27,7 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 
-def check_event(ai_settings, screen, ship, bullets):
+def check_event(ai_settings, screen, stats, play_button, ship, aliens, bullets):
     """获取并处理感兴趣的事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -36,6 +36,23 @@ def check_event(ai_settings, screen, ship, bullets):
             check_keydown_events(event, ai_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
+
+
+def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+    if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_active:
+        pygame.mouse.set_visible(False)
+
+        stats.reset_stats()
+        stats.game_active = True
+
+        aliens.empty()
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
+
 
 
 def update_bullets(ai_settings, screen, ship, aliens, bullets):
@@ -73,6 +90,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
@@ -126,6 +144,12 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     return number_alien_y
 
 
+def get_number_alien_x(ai_settings, alien_width):
+    available_space_x = ai_settings.screen_width - 2 * alien_width
+    number_alien_x = int(available_space_x / (2 * alien_width))
+    return number_alien_x
+
+
 def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien = Alien(ai_settings, screen)
     alien.x = alien.rect.width + 2 * alien.rect.width * alien_number
@@ -133,12 +157,6 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien.rect.x = alien.x
     alien.rect.y = alien.y
     aliens.add(alien)
-
-
-def get_number_alien_x(ai_settings, alien_width):
-    available_space_x = ai_settings.screen_width - 2 * alien_width
-    number_alien_x = int(available_space_x / (2 * alien_width))
-    return number_alien_x
 
 
 def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
