@@ -55,18 +55,21 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
         ship.center_ship()
 
 
-
-def update_bullets(ai_settings, screen, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom < 0:
             bullets.remove(bullet)
 
-    check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
 
-def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets):
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points * len(aliens)
+            sb.prep_score()
 
     if len(aliens) == 0:
         bullets.empty()
@@ -161,7 +164,7 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     aliens.add(alien)
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     """更新屏幕上的图像并切换到新屏幕"""
     # 填充屏幕背景色
     screen.fill(ai_settings.bg_color)
@@ -172,6 +175,8 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     ship.blitme()
 
     aliens.draw(screen)
+
+    sb.show_score()
 
     if not stats.game_active:
         play_button.draw_button()

@@ -3,6 +3,7 @@ import pygame
 
 from button import Button
 from game_stats import GameStats
+from scoreboard import ScoreBoard
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -18,6 +19,8 @@ def run_game():
 
     #  游戏状态
     stats = GameStats(ai_settings)
+
+    sb = ScoreBoard(ai_settings, screen, stats)
 
     # 开始按钮
     play_button = Button(ai_settings, screen, "Play")
@@ -40,10 +43,10 @@ def run_game():
 
         if stats.game_active:
             ship.update()
-            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
 
 
 # 程序入口
